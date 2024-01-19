@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Juste Prix par AYOUBI</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        #game-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #item-image {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        #points {
+            margin-top: 10px;
+            color: #333;
+        }
+
+        #footer {
+            margin-top: 30px;
+            font-size: 12px;
+            color: #888;
+        }
+    </style>
+    <script>
+        const items = [
+            { name: 'Vélo électrique pliable', price: '799 €', image: 'https://media.s-bol.com/gVXYX1wW04Wl/X4pQZv/550x542.jpg', reward: 'Emote personnalisé' },
+            { name: 'iPhone 15', price: '1229 €', image: 'https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-15-pro-finish-select-202309-6-1inch_GEO_EMEA?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1693009279096', reward: 'Nom spécial dans le chat' },
+            { name: 'PS5 SLIM', price: '595.95 €', image: 'https://media.ldlc.com/r1600/ld/products/00/06/08/64/LD0006086468.jpg', reward: 'Sélectionner un jeu pour la diffusion' },
+            { name: 'Montre connectée étanche', price: '129.95 €', image: 'https://static.fnac-static.com/multimedia/Images/83/83/77/EB/15431555-1505-1540-1/tsp20200821085645/Montre-Connectee-Femmes-Homme-Enfant-IP68-Etanche-Bracelet-Connecte-Ecran-pour-iPhone-Huawei-Samsung-Xiaomi-Sony-LG-Bleu.jpg', reward: 'Récompense 4' },
+            { name: 'Enceinte Bluetooth haute qualité', price: '159 €', image: 'https://d3jks2a8ttfomr.cloudfront.net/articles/Les-5-meilleurs-haut-parleurs-Bluetooth.jpeg', reward: 'Récompense 5' },
+            { name: 'Appareil photo numérique professionnel', price: '799.99 €', image: 'https://www.imagenumerique.fr/wp-content/uploads/2019/01/Les-10-meilleurs-appareils-photo-pour-les-professionnels-en-2019-810x450.jpg', reward: 'Récompense 6' },
+            { name: 'Ordinateur portable ultraléger', price: '999 €', image: 'https://lemondenumerique.ouest-france.fr/wp-content/uploads/2017/03/ASUS_PRO_B9440_angle-1.jpg', reward: 'Récompense 7' },
+            { name: 'Casque audio sans fil', price: '129.99 €', image: 'https://www.electrodepot.be/media/catalog/product/P973886.jpg', reward: 'Récompense 8' },
+            { name: 'Téléviseur intelligent 4K', price: '699 €', image: 'https://www.lg.com/be_fr/images/televiseurs/md07572980/gallery/medium01.jpg', reward: 'Récompense 9' },
+            { name: 'Drone caméra HD', price: '299.95 €', image: 'https://fr.mytrendyphone.be/images/RC-Drone-with-GPS-and-4K-HD-Dual-Camera-F11-20122021-01-p.webp', reward: 'Récompense 10' },
+            { name: 'Liseuse électronique', price: '119.99 €', image: 'https://images.frandroid.com/wp-content/uploads/2021/09/amazon-kindle-paperwhite-signature-2021-frandroid-2021.png', reward: 'Récompense 11' },
+            { name: 'Barre de son immersive', price: '249 €', image: 'https://media.ldlc.com/r1600/ld/products/00/06/07/75/LD0006077555.jpg', reward: 'Récompense 12' },
+            { name: 'Enceinte intelligente avec assistant vocal', price: '119 €', image: 'https://pic.clubic.com/v1/images/1851190/raw', reward: 'Récompense 13' },
+            { name: 'Batterie externe haute capacité', price: '49.99 €', image: 'https://m.media-amazon.com/images/I/31eKcqOBmWL._AC_SY780_.jpg', reward: 'Récompense 14' },
+            { name: 'Cafetière automatique', price: '89.95 €', image: 'https://m.media-amazon.com/images/I/31FmqJqZThL._AC_SY780_.jpg', reward: 'Récompense 15' },
+            { name: 'Aspirateur robot intelligent', price: '199.99 €', image: 'https://media.s-bol.com/mnLYMAVG8Qn3/Ljw4Jj/550x708.jpg', reward: 'Récompense 16' },
+                       { name: 'Jeux de société familiaux', price: '34.99 €', image: 'https://m.media-amazon.com/images/I/51W1wV49SyL._AC_SY780_.jpg', reward: 'Récompense 17' },
+            { name: 'Imprimante photo portable', price: '129.99 €', image: 'https://www.selecteo.fr//img/cms/Imprimante%20photo%20portable/imprimante-portable-hp-sprocket-plus.jpg', reward: 'Récompense 18' },
+            { name: 'Écouteurs sport sans fil', price: '79.99 €', image: 'https://static.fnac-static.com/multimedia/Images/FR/MDM/85/17/8f/9377669/1540-1/tsp20230605184535/Ecouteurs-sport-sans-fil-Plantronics-BackBeat-FIT-3100-Gris.jpg', reward: 'Récompense 19' },
+            { name: 'Réveil simulateur d\'aube', price: '49.95 €', image: 'https://content.pearl.be/media/cache/default/article_large_high_nocrop_v2/shared/images/articles/Z/ZX5/reveil-simulateur-d-aube-connecte-avec-commandes-vocales-ref_ZX5093_1.jpg', reward: 'Récompense 20' }
+            // Ajoutez d'autres articles avec leurs détails si nécessaire
+        ];
+
+        let currentItem;
+        let attempts = 0;
+        let points = 0;
+
+        // Sons
+        const correctSound = new Audio('https://zapsplat.net/zapsplat-sounds/download.php?fileName=zapsplat_cartoon_tada.mp3');
+        const incorrectSound = new Audio('https://zapsplat.net/zapsplat-sounds/download.php?fileName=zapsplat_cartoon_wrong_answer_fail_descending_tone_001_69415.mp3');
+
+        function startGame() {
+            currentItem = items[Math.floor(Math.random() * items.length)];
+            document.getElementById('item-image').src = currentItem.image;
+            document.getElementById('result').textContent = '';
+            document.getElementById('points').textContent = `Points : ${points}`;
+            attempts = 0;
+        }
+
+    function submitGuess() {
+    const userGuess = parseFloat(document.getElementById('userGuess').value.replace(',', '.'));
+
+    if (isNaN(userGuess)) {
+        document.getElementById('result').textContent = 'Veuillez entrer un nombre valide.';
+    } else {
+        attempts++;
+
+        const numericPrice = parseFloat(currentItem.price.replace(' €', '').replace(',', '.'));
+
+        if (userGuess === numericPrice) {
+            document.body.style.backgroundColor = '#5cb85c';
+            rewardWinner(currentItem.reward);
+            points += 100;
+            document.getElementById('result').textContent = `Bravo ! Vous avez trouvé le juste prix en ${attempts} tentatives. Récompense : ${currentItem.reward}`;
+            document.getElementById('points').textContent = `Points : ${points}`;
+            setTimeout(() => {
+                document.body.style.backgroundColor = '#f2f2f2';
+            }, 2000);
+            startGame();
+
+            // Envoie un message aux autres clients sur la même page
+            channel.postMessage(`Le joueur a trouvé le juste prix : ${userGuess}`);
+
+            // Jouer le son de réponse correcte
+            correctSound.play();
+        } else if (userGuess < numericPrice) {
+            document.getElementById('result').textContent = 'Trop bas. Essayez encore !';
+        } else {
+            document.getElementById('result').textContent = 'Trop haut. Essayez encore !';
+
+            // Jouer le son de réponse incorrecte
+            incorrectSound.play();
+        }
+    }
+}
+
+
+        function rewardWinner(reward) {
+            console.log(`Récompense attribuée : ${reward}`);
+        }
+
+        // Mise en place d'un canal de diffusion
+        const channel = new BroadcastChannel('juste-prix');
+
+        // Réception des messages des autres clients
+        channel.onmessage = (event) => {
+            // Traitez le message, si nécessaire
+            console.log(`Message reçu : ${event.data}`);
+        };
+
+        // Démarrez le jeu au chargement de la page
+        window.onload = () => {
+            startGame();
+
+            // Assurez-vous de fermer le canal lors de la fermeture de la page
+            window.onbeforeunload = () => {
+                channel.close();
+            };
+        };
+    </script>
+</head>
+<body>
+    <div id="game-container">
+        <h1>Le Juste Prix par AYOUBI</h1>
+        <img id="item-image" src="" alt="Article à estimer">
+        <p id="instruction">Proposez un prix :</p>
+        <input type="number" id="userGuess" placeholder="Votre estimation">
+        <button onclick="submitGuess()">Proposer</button>
+        <p id="result"></p>
+        <p id="points">Points : 0</p>
+        <div id="footer">Mini-jeu créé par AYOUBI007BXL</div>
+    </div>
+</body>
+</html>
+
